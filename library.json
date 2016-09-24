@@ -1,0 +1,19 @@
+{
+"name": "Switch",
+"frameworks": "Arduino",
+"keywords": "Button, Debounce, Switch",
+"description": "Arduino library for debouncing switches and buttons",
+"url": "https://github.com/blackketter/Switch",
+"authors":
+[
+{
+        "name": "Albert van Dalen"
+},
+],
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/blackketter/Switch"
+}
+}
+
