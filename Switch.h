@@ -20,6 +20,7 @@ public:
   bool pushed(); // will be refreshed by poll()
   bool released(); // will be refreshed by poll()
   bool longPress(); // will be refreshed by poll()
+  bool longPressLatch();
   bool doubleClick(); // will be refreshed by poll()
 
   unsigned long _switchedTime, pushedTime;
@@ -28,7 +29,7 @@ protected:
   const byte pin;
   const int debounceDelay, longPressDelay, doubleClickDelay;
   const bool polarity;
-  bool level, _switched, _longPress, longPressLatch, _doubleClick;
+  bool level, _switched, _longPress, _longPressLatch, _doubleClick;
 };
 
 #endif

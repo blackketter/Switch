@@ -35,7 +35,7 @@ Added longPress, doubleClick
 
  doubleClickDelay           <-------------------------------------->
                                           _________
- longPressLatch    ______________________|         |_________________
+ _longPressLatch   ______________________|         |_________________
                                           _
  _longPress        ______________________| |__________________________
                                                                 _
@@ -62,16 +62,16 @@ bool Switch::poll()
 { _longPress = _doubleClick = false;
   bool newlevel = digitalRead(pin);
 
-  if(!longPressLatch)
+  if(!_longPressLatch)
   { _longPress = on() && ((long)(millis() - pushedTime) > longPressDelay); // true just one time between polls
-    longPressLatch = _longPress; // will be reset at next switch
+    _longPressLatch = _longPress; // will be reset at next switch
   }
 
   if((newlevel != level) & (millis() - _switchedTime >= debounceDelay))
   { _switchedTime = millis();
     level = newlevel;
     _switched = 1;
-    longPressLatch = false;
+    _longPressLatch = false;
 
     if(pushed())
     { _doubleClick = (long)(millis() - pushedTime) < doubleClickDelay;
@@ -104,4 +104,8 @@ bool Switch::longPress()
 
 bool Switch::doubleClick()
 { return _doubleClick;
+}
+
+bool Switch::longPressLatch()
+{ return _longPressLatch;
 }
