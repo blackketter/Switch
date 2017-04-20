@@ -85,7 +85,34 @@ A debounce delay of 50ms is a safe value; it doesn't hurt the reaction time, and
 ```
 if((newlevel != level) & (millis() - _switchedTime >= debounceDelay))
 ```
-Using an interrupt service routine for polling the buttons
+
+#### Status callbacks 
+
+Callbacks can be used, instead of needing to call `switch.poll()` and then checking with an `if` statement whether the relevant event has occurred. 
+With a callback registered, Switch will run the defined function when the conditions are met. 
+
+Define a function you want to perform, with no return type and no arguments: 
+
+
+```C++
+void foo() {
+	//your code;
+}
+``` 
+and then call one of the four "set callback" methods in setup, like so: 
+
+```C++
+void setup() {
+	...
+	switch.setPushedCallback(&foo);
+	...
+	}
+``` 
+
+There is also `setReleasedCallback`, `setLongPressCallback`, and `setDoubleClickCallback`. If using a toggle switch and not a push button, the "pressed" event will be of interest when the switch is turned on, and "released" when it is turned off. 
+
+
+#### Using an interrupt service routine for polling the buttons
 
 Polling buttons has a high priority, slow functions such as Serial.print() may disrupt the timing. See here how to use an ISR for polling the buttons:
 
