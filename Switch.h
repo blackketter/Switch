@@ -38,10 +38,10 @@ protected:
   bool level, _switched, _longPress, _longPressLatch, _doubleClick;
   
   // Event callbacks
-  void (*_pushedCallback)(void);
-  void (*_releasedCallback)(void);
-  void (*_longPressCallback)(void);
-  void (*_doubleClickCallback)(void);
+  void (*_pushedCallback)(void) = 0;
+  void (*_releasedCallback)(void) = 0;
+  void (*_longPressCallback)(void) = 0;
+  void (*_doubleClickCallback)(void) = 0;
 };
 
 #endif

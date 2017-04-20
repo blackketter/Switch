@@ -56,10 +56,6 @@ pin(_pin), polarity(polarity), debounceDelay(debounceDelay), longPressDelay(long
 { pinMode(pin, PinMode);
   _switchedTime = millis();
   level = digitalRead(pin);
-  _pushedCallback = 0;
-  _releasedCallback = 0;
-  _longPressCallback = 0;
-  _doubleClickCallback = 0;
 }
 
 bool Switch::poll()
