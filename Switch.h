@@ -24,12 +24,24 @@ public:
   bool doubleClick(); // will be refreshed by poll()
 
   unsigned long _switchedTime, pushedTime;
+  
+  // Set methods for event callbacks 
+  void setPushedCallback(void (*cb)(void));
+  void setReleasedCallback(void (*cb)(void));
+  void setLongPressCallback(void (*cb)(void));
+  void setDoubleClickCallback(void (*cb)(void));
 
 protected:
   const byte pin;
   const int debounceDelay, longPressDelay, doubleClickDelay;
   const bool polarity;
   bool level, _switched, _longPress, _longPressLatch, _doubleClick;
+  
+  // Event callbacks
+  void (*_pushedCallback)(void);
+  void (*_releasedCallback)(void);
+  void (*_longPressCallback)(void);
+  void (*_doubleClickCallback)(void);
 };
 
 #endif

@@ -56,6 +56,10 @@ pin(_pin), polarity(polarity), debounceDelay(debounceDelay), longPressDelay(long
 { pinMode(pin, PinMode);
   _switchedTime = millis();
   level = digitalRead(pin);
+  _pushedCallback = 0;
+  _releasedCallback = 0;
+  _longPressCallback = 0;
+  _doubleClickCallback = 0;
 }
 
 bool Switch::poll()
@@ -65,6 +69,9 @@ bool Switch::poll()
   if(!_longPressLatch)
   { _longPress = on() && ((long)(millis() - pushedTime) > longPressDelay); // true just one time between polls
     _longPressLatch = _longPress; // will be reset at next switch
+  }
+  if(_longPressCallback && longPress())
+  { _longPressCallback();
   }
 
   if((newlevel != level) & (millis() - _switchedTime >= debounceDelay))
@@ -77,6 +84,17 @@ bool Switch::poll()
     { _doubleClick = (long)(millis() - pushedTime) < doubleClickDelay;
       pushedTime = millis();
     }
+    
+    if(_pushedCallback && pushed())
+    { _pushedCallback();
+	}
+	else if(_releasedCallback && released())
+	{ _releasedCallback();
+	}
+    
+    if(_doubleClickCallback && doubleClick())
+    { _doubleClickCallback();
+	}
     return _switched;
   }
   return _switched = 0;
@@ -108,4 +126,24 @@ bool Switch::doubleClick()
 
 bool Switch::longPressLatch()
 { return _longPressLatch;
+}
+
+void Switch::setPushedCallback(void (*cb)(void))
+{ /// Store the "pushed" callback function
+  _pushedCallback = cb;
+}
+
+void Switch::setReleasedCallback(void (*cb)(void))
+{ /// Store the "released" callback function
+  _releasedCallback = cb;
+}
+
+void Switch::setLongPressCallback(void (*cb)(void))
+{ /// Store the "long press" callback function
+  _longPressCallback = cb;
+}
+
+void Switch::setDoubleClickCallback(void (*cb)(void))
+{ /// Store the "double click" callback function
+  _doubleClickCallback = cb;
 }
