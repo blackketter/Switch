@@ -82,7 +82,7 @@ If the above assumptions are met, the software debounce algorithm can be quite s
 
 A debounce delay of 50ms is a safe value; it doesn't hurt the reaction time, and will handle even bad switches. 
 
-```
+```C++
 if((newlevel != level) & (millis() - _switchedTime >= debounceDelay))
 ```
 
@@ -99,14 +99,15 @@ void foo() {
 	//your code;
 }
 ``` 
-and then call one of the four "set callback" methods in setup, like so: 
+and then call one of the four "set callback" methods in the Arduino setup function, like so: 
 
 ```C++
 void setup() {
-	...
+	... // Other setup code 
+	... 
 	switch.setPushedCallback(&foo);
 	...
-	}
+}
 ``` 
 
 There is also `setReleasedCallback`, `setLongPressCallback`, and `setDoubleClickCallback`. If using a toggle switch and not a push button, the "pressed" event will be of interest when the switch is turned on, and "released" when it is turned off. 
@@ -116,7 +117,7 @@ There is also `setReleasedCallback`, `setLongPressCallback`, and `setDoubleClick
 
 Polling buttons has a high priority, slow functions such as Serial.print() may disrupt the timing. See here how to use an ISR for polling the buttons:
 
-```
+```C++
 #include <Arduino.h>
 #include "Switch.h"
 #include <FrequencyTimer2.h>
