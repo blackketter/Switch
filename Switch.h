@@ -10,6 +10,8 @@ of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Publ
 #ifndef SWITCH_H
 #define SWITCH_H
 
+typedef void (*switchCallback_t)(void*);
+
 class Switch
 {
 public:
@@ -24,24 +26,30 @@ public:
   bool doubleClick(); // will be refreshed by poll()
 
   unsigned long _switchedTime, pushedTime;
-  
-  // Set methods for event callbacks 
-  void setPushedCallback(void (*cb)(void));
-  void setReleasedCallback(void (*cb)(void));
-  void setLongPressCallback(void (*cb)(void));
-  void setDoubleClickCallback(void (*cb)(void));
+
+  // Set methods for event callbacks
+  void setPushedCallback(switchCallback_t cb, void* param = nullptr);
+  void setReleasedCallback(switchCallback_t cb, void* param = nullptr);
+  void setLongPressCallback(switchCallback_t cb, void* param = nullptr);
+  void setDoubleClickCallback(switchCallback_t cb, void* param = nullptr);
 
 protected:
   const byte pin;
   const int debounceDelay, longPressDelay, doubleClickDelay;
   const bool polarity;
   bool level, _switched, _longPress, _longPressLatch, _doubleClick;
-  
+
   // Event callbacks
-  void (*_pushedCallback)(void) = 0;
-  void (*_releasedCallback)(void) = 0;
-  void (*_longPressCallback)(void) = 0;
-  void (*_doubleClickCallback)(void) = 0;
+  switchCallback_t _pushedCallback = nullptr;
+  switchCallback_t _releasedCallback = nullptr;
+  switchCallback_t _longPressCallback = nullptr;
+  switchCallback_t _doubleClickCallback = nullptr;
+
+  void* _pushedCallbackParam = nullptr;
+  void* _releasedCallbackParam = nullptr;
+  void* _longPressCallbackParam = nullptr;
+  void* _doubleClickCallbackParam = nullptr;
+
 };
 
 #endif

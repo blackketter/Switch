@@ -80,16 +80,16 @@ bool Switch::poll()
     { _doubleClick = (long)(millis() - pushedTime) < doubleClickDelay;
       pushedTime = millis();
     }
-    
+
     if(_pushedCallback && pushed())
-    { _pushedCallback();
+    { _pushedCallback(_pushedCallbackParam);
 	}
 	else if(_releasedCallback && released())
-	{ _releasedCallback();
+	{ _releasedCallback(_releasedCallbackParam);
 	}
-    
+
     if(_doubleClickCallback && doubleClick())
-    { _doubleClickCallback();
+    { _doubleClickCallback(_doubleClickCallbackParam);
 	}
     return _switched;
   }
@@ -124,22 +124,26 @@ bool Switch::longPressLatch()
 { return _longPressLatch;
 }
 
-void Switch::setPushedCallback(void (*cb)(void))
+void Switch::setPushedCallback(switchCallback_t cb, void* param = nullptr)
 { /// Store the "pushed" callback function
   _pushedCallback = cb;
+  _pushedCallbackParam = param;
 }
 
-void Switch::setReleasedCallback(void (*cb)(void))
+void Switch::setReleasedCallback(switchCallback_t cb, void* param = nullptr)
 { /// Store the "released" callback function
   _releasedCallback = cb;
+  _releasedCallbackParam = param;
 }
 
-void Switch::setLongPressCallback(void (*cb)(void))
+void Switch::setLongPressCallback(switchCallback_t cb, void* param = nullptr)
 { /// Store the "long press" callback function
   _longPressCallback = cb;
+  _longPressCallbackParam = param;
 }
 
-void Switch::setDoubleClickCallback(void (*cb)(void))
+void Switch::setDoubleClickCallback(switchCallback_t cb, void* param = nullptr)
 { /// Store the "double click" callback function
   _doubleClickCallback = cb;
+  _doubleClickCallbackParam = param;
 }
