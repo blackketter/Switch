@@ -91,11 +91,11 @@ if((newlevel != level) & (millis() - _switchedTime >= debounceDelay))
 Callbacks can be used, instead of needing to call `switch.poll()` and then checking with an `if` statement whether the relevant event has occurred. 
 With a callback registered, Switch will run the defined function when the conditions are met. 
 
-Define a function you want to perform, with no return type and no arguments: 
+Define a function you want to perform, with no return type and one argument, a pointer to some reference (or use nullptr if you don't need it.): 
 
 
 ```C++
-void foo() {
+void foo(void* ref) {
 	//your code;
 }
 ``` 
@@ -104,8 +104,9 @@ and then call one of the four "set callback" methods in the Arduino setup functi
 ```C++
 void setup() {
 	... // Other setup code 
-	... 
-	switch.setPushedCallback(&foo);
+	...
+	int reference;
+	switch.setPushedCallback(&foo, &reference);
 	...
 }
 ``` 
