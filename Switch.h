@@ -35,7 +35,7 @@ public:
 
 protected:
   const byte pin;
-  const int debounceDelay, longPressDelay, doubleClickDelay;
+  const unsigned long debounceDelay, longPressDelay, doubleClickDelay;
   const bool polarity;
   bool level, _switched, _longPress, _longPressLatch, _doubleClick;
 

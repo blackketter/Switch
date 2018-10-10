@@ -52,7 +52,7 @@ _doubleClick       ____________________________________________| |____
 
 // level(0)
 Switch::Switch(byte _pin, byte PinMode, bool polarity, int debounceDelay, int longPressDelay, int doubleClickDelay):
-pin(_pin), polarity(polarity), debounceDelay(debounceDelay), longPressDelay(longPressDelay), doubleClickDelay(doubleClickDelay)
+pin(_pin), debounceDelay(debounceDelay), longPressDelay(longPressDelay), doubleClickDelay(doubleClickDelay), polarity(polarity)
 { pinMode(pin, PinMode);
   _switchedTime = millis();
   level = digitalRead(pin);
@@ -63,7 +63,7 @@ bool Switch::poll()
   bool newlevel = digitalRead(pin);
 
   if(!_longPressLatch)
-  { _longPress = on() && ((long)(millis() - pushedTime) > longPressDelay); // true just one time between polls
+  { _longPress = on() && ((millis() - pushedTime) > longPressDelay); // true just one time between polls
     _longPressLatch = _longPress; // will be reset at next switch
   }
   if(_longPressCallback && longPress())
@@ -77,7 +77,7 @@ bool Switch::poll()
     _longPressLatch = false;
 
     if(pushed())
-    { _doubleClick = (long)(millis() - pushedTime) < doubleClickDelay;
+    { _doubleClick = (millis() - pushedTime) < doubleClickDelay;
       pushedTime = millis();
     }
 
