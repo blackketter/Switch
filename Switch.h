@@ -27,6 +27,8 @@ public:
 
   unsigned long _switchedTime, pushedTime;
 
+  unsigned long pushedDuration();  // returns duration of press in milliseconds, 0 if not pressed
+
   // Set methods for event callbacks
   void setPushedCallback(switchCallback_t cb, void* param = nullptr);
   void setReleasedCallback(switchCallback_t cb, void* param = nullptr);

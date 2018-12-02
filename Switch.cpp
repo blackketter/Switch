@@ -147,3 +147,15 @@ void Switch::setDoubleClickCallback(switchCallback_t cb, void* param)
   _doubleClickCallback = cb;
   _doubleClickCallbackParam = param;
 }
+
+unsigned long Switch::pushedDuration() {
+  if (on()) {
+    unsigned long dur = millis() - pushedTime;
+    if (!dur) {
+      dur = 1;  // minimum 1ms
+    }
+    return dur;
+  } else {
+    return 0;
+  }
+}
